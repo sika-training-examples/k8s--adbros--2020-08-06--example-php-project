@@ -9,5 +9,15 @@ services:
     volumes:
       - db-data:/var/lib/mysql
 
+  backend:
+    build: backend
+    image: reg.istry.cz/ondrejsika/adbros-demo/backend
+    environment:
+      MYSQL_DATABASE: default
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD?}
+    volumes:
+      - ./backend/src/:/var/www/html/:ro
+    ports:
+      - 80:80
 volumes:
   db-data:
