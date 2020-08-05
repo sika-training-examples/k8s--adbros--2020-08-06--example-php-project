@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  db:
+    build: db
+    image: reg.istry.cz/ondrejsika/adbros-demo/db
+    environment:
+      MYSQL_DATABASE: default
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD?}
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
