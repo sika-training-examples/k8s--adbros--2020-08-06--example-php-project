@@ -2,7 +2,7 @@ version: "3.8"
 services:
   db:
     build: db
-    image: reg.istry.cz/ondrejsika/adbros-demo/db
+    image: ${IMAGE_DB:-adbros-demo-db}
     environment:
       MYSQL_DATABASE: default
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD?}
@@ -11,7 +11,7 @@ services:
 
   backend:
     build: backend
-    image: reg.istry.cz/ondrejsika/adbros-demo/backend
+    image: ${IMAGE_BACKEND:-adbros-demo-backend}
     environment:
       MYSQL_DATABASE: default
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD?}
@@ -22,7 +22,7 @@ services:
 
   frontend:
     build: frontend
-    image: reg.istry.cz/ondrejsika/adbros-demo/frontend
+    image: ${IMAGE_FRONTEND:-adbros-demo-frontend}
     environment:
       API_URL: http://localhost:8080
     volumes:
