@@ -9,7 +9,7 @@ variables:
 build:
   stage: build
   image: ondrejsika/ci
-  environment:
+  variables:
     MYSQL_ROOT_PASSWORD: root
   script:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
