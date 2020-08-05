@@ -18,6 +18,17 @@ services:
     volumes:
       - ./backend/src/:/var/www/html/:ro
     ports:
+      - 8080:80
+
+  frontend:
+    build: frontend
+    image: reg.istry.cz/ondrejsika/adbros-demo/frontend
+    environment:
+      API_URL: http://localhost:8080
+    volumes:
+      - ./frontend/src:/var/www/html:ro
+    ports:
       - 80:80
+
 volumes:
   db-data:

@@ -20,6 +20,8 @@ $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 echo json_encode(["counter" => (int)$row["count"]]);
 
 $conn->close();
