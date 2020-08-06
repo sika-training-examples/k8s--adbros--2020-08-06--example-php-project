@@ -22,7 +22,7 @@ build:
 deploy:
   stage: deploy
   script:
-    - kubectl create $
+    - env
     - kubectl apply -f k8s
   environment:
     name: prod
