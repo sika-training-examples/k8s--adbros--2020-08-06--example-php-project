@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    project: adbros-demo
+spec:
+  selector:
+    matchLabels:
+      project: adbros-demo
+      app: backend
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        project: adbros-demo
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: registry.sikahq.com/adbros/docker-demo-project/backend:master
+          resources:
+            requests:
+              cpu: 3m
+              memory: 40Mi
+            limits:
+              cpu: 10m
+              memory: 50Mi
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: MYSQL_ROOT_PASSWORD
+          ports:
+            - containerPort: 80

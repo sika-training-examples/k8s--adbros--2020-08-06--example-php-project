@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    project: adbros-demo
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    project: adbros-demo
+    app: mysql

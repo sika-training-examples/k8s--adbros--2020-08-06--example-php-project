@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  labels:
+    project: adbros-demo
+spec:
+  serviceName: mysql
+  selector:
+    matchLabels:
+      project: adbros-demo
+      app: mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        project: adbros-demo
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: registry.sikahq.com/adbros/docker-demo-project/db:master
+          resources:
+            requests:
+              cpu: 50m
+              memory: 300Mi
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: MYSQL_ROOT_PASSWORD
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql
+      volumes:
+        - name: mysql
+          persistentVolumeClaim:
+            claimName: mysql

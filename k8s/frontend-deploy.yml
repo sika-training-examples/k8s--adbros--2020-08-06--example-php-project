@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    project: adbros-demo
+spec:
+  selector:
+    matchLabels:
+      project: adbros-demo
+      app: frontend
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        project: adbros-demo
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: registry.sikahq.com/adbros/docker-demo-project/frontend:master
+          resources:
+            requests:
+              cpu: 3m
+              memory: 40Mi
+            limits:
+              cpu: 10m
+              memory: 50Mi
+          env:
+            - name: API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: API_URL
+          ports:
+            - containerPort: 80
