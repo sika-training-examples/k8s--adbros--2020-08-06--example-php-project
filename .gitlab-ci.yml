@@ -23,3 +23,6 @@ deploy:
   stage: deploy
   script:
     - kubectl apply -f k8s
+  environment:
+    name: prod
+    url: https://frontend.k8s.sikademo.com
