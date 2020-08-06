@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: registry.sikahq.com/adbros/docker-demo-project/backend:master
+          image: registry.sikademo.com/adbros/adbros/backend:master
           resources:
             requests:
               cpu: 3m

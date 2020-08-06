@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: registry.sikahq.com/adbros/docker-demo-project/db:master
+          image: registry.sikademo.com/adbros/adbros/db:master
           resources:
             requests:
               cpu: 50m

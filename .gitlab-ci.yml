@@ -1,5 +1,8 @@
+image: ondrejsika/ci
+
 stages:
   - build
+  - deploy
 
 variables:
   IMAGE_DB: $CI_REGISTRY_IMAGE/db:$CI_COMMIT_REF_SLUG
@@ -8,7 +11,6 @@ variables:
 
 build:
   stage: build
-  image: ondrejsika/ci
   variables:
     MYSQL_ROOT_PASSWORD: root
   script:
@@ -16,3 +18,8 @@ build:
     - docker-compose config
     - docker-compose build
     - docker-compose push
+
+deploy:
+  stage: deploy
+  script:
+    - kubectl apply -f k8s

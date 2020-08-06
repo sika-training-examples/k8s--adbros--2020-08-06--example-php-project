@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: registry.sikahq.com/adbros/docker-demo-project/frontend:master
+          image: registry.sikademo.com/adbros/adbros/frontend:master
           resources:
             requests:
               cpu: 3m
