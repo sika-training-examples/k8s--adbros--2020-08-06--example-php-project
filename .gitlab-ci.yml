@@ -21,8 +21,9 @@ build:
 
 deploy:
   stage: deploy
+  variables:
+    KUBE_NAMESPACE: default
   script:
-    - env
     - kubectl apply -f k8s
   environment:
     name: prod
