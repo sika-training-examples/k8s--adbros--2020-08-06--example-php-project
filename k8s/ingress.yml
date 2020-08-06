@@ -4,14 +4,14 @@ metadata:
   name: ingress
 spec:
   rules:
-    - host: backend.adbros.sikademo.com
+    - host: backend.k8s.sikademo.com
       http:
         paths:
           - path: /
             backend:
               serviceName: backend
               servicePort: 80
-    - host: frontend.adbros.sikademo.com
+    - host: frontend.k8s.sikademo.com
       http:
         paths:
           - path: /
