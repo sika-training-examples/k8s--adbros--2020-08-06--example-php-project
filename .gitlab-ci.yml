@@ -24,7 +24,7 @@ deploy:
   variables:
     KUBE_NAMESPACE: default
   script:
-    - kubectl create ns $KUBERNETES_NAMESPACE || true
+    - kubectl create ns $KUBE_NAMESPACE || true
     - kubectl apply -f k8s
   environment:
     name: prod
