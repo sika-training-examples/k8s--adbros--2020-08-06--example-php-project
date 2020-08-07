@@ -34,6 +34,10 @@ deploy dev:
       --set frontendHost=$CI_COMMIT_REF_SLUG.k8s.sikademo.com
       --set frontendReplicas=1
       --set backendReplicas=1
+    - kubectl rollout status deploy $DEV_NAME-backend
+    - kubectl rollout status deploy $DEV_NAME-frontend
+    - kubectl rollout status sts $DEV_NAME
+    - sleep 10
   environment:
     name: dev/$CI_COMMIT_REF_SLUG
     url: https://$CI_COMMIT_REF_SLUG.k8s.sikademo.com
@@ -48,6 +52,10 @@ deploy prod:
       --set mysqlImage=$IMAGE_DB
       --set backendHost=backend.k8s.sikademo.com
       --set frontendHost=frontend.k8s.sikademo.com
+    - kubectl rollout status deploy $PROD_NAME-backend
+    - kubectl rollout status deploy $PROD_NAME-frontend
+    - kubectl rollout status sts $PROD_NAME
+    - sleep 10
   environment:
     name: prod
     url: https://frontend.k8s.sikademo.com
