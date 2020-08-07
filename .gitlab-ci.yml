@@ -41,6 +41,16 @@ deploy dev:
   environment:
     name: dev/$CI_COMMIT_REF_SLUG
     url: https://$CI_COMMIT_REF_SLUG.k8s.sikademo.com
+    on_stop: destroy dev
+
+destroy dev:
+  when: manual
+  stage: deploy dev
+  script:
+    - helm uninstall $DEV_NAME
+  environment:
+    name: dev/$CI_COMMIT_REF_SLUG
+    action: stop
 
 deploy prod:
   stage: deploy prod
