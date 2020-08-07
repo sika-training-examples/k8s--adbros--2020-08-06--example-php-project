@@ -42,6 +42,8 @@ deploy dev:
     name: dev/$CI_COMMIT_REF_SLUG
     url: https://$CI_COMMIT_REF_SLUG.k8s.sikademo.com
     on_stop: destroy dev
+  except:
+    - master
 
 destroy dev:
   when: manual
