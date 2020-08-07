@@ -53,6 +53,8 @@ destroy dev:
   environment:
     name: dev/$CI_COMMIT_REF_SLUG
     action: stop
+  except:
+    - master
 
 deploy prod:
   stage: deploy prod
