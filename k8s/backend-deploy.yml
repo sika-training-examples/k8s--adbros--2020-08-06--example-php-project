@@ -27,6 +27,11 @@ spec:
               cpu: 10m
               memory: 50Mi
           env:
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: MYSQL_HOST
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
