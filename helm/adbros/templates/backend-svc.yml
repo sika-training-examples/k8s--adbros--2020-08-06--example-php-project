@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: {{ .Release.Name }}-backend
   labels:
-    project: adbros-demo
+    project: {{ .Release.Name }}
 spec:
   ports:
     - port: 80
   selector:
-    project: adbros-demo
+    project: {{ .Release.Name }}
     app: backend

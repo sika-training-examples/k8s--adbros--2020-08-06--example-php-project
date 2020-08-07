@@ -1,0 +1,2 @@
+Backend: https://{{ .Values.backendHost }}
+Frontend: https://{{ .Values.frontendHost }}

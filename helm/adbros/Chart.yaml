@@ -1,0 +1,5 @@
+apiVersion: v2
+name: adbros
+description: A demo app for Adbros
+type: application
+version: 0.1.0

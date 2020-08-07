@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: {{ .Release.Name }}-backend
   labels:
-    project: adbros-demo
+    project: {{ .Release.Name }}
 spec:
   selector:
     matchLabels:
-      project: adbros-demo
+      project: {{ .Release.Name }}
       app: backend
-  replicas: 3
+  replicas: {{ .Values.backendReplicas }}
   template:
     metadata:
       labels:
-        project: adbros-demo
+        project: {{ .Release.Name }}
         app: backend
     spec:
       containers:
         - name: backend
-          image: registry.sikademo.com/adbros/adbros/backend:master
+          image: {{ .Values.backendImage }}
           resources:
             requests:
               cpu: 3m
@@ -28,19 +28,16 @@ spec:
               memory: 50Mi
           env:
             - name: MYSQL_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: config
-                  key: MYSQL_HOST
+              value: {{ .Release.Name }}
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: config
+                  name: {{ .Release.Name }}
                   key: MYSQL_DATABASE
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: config
+                  name: {{ .Release.Name }}
                   key: MYSQL_ROOT_PASSWORD
           ports:
             - containerPort: 80

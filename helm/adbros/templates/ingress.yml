@@ -1,20 +1,20 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingress
+  name: {{ .Release.Name }}
 spec:
   rules:
-    - host: backend.k8s.sikademo.com
+    - host: {{ .Values.backendHost }}
       http:
         paths:
           - path: /
             backend:
-              serviceName: backend
+              serviceName: {{ .Release.Name }}-backend
               servicePort: 80
-    - host: frontend.k8s.sikademo.com
+    - host: {{ .Values.frontendHost }}
       http:
         paths:
           - path: /
             backend:
-              serviceName: frontend
+              serviceName: {{ .Release.Name }}-frontend
               servicePort: 80

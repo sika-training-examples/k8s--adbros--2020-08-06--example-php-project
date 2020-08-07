@@ -1,39 +1,39 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: {{ .Release.Name }}
   labels:
-    project: adbros-demo
+    project: {{ .Release.Name }}
 spec:
-  serviceName: mysql
+  serviceName: {{ .Release.Name }}
   selector:
     matchLabels:
-      project: adbros-demo
+      project: {{ .Release.Name }}
       app: mysql
   replicas: 1
   template:
     metadata:
       labels:
-        project: adbros-demo
+        project: {{ .Release.Name }}
         app: mysql
     spec:
       containers:
         - name: mysql
-          image: registry.sikademo.com/adbros/adbros/db:master
+          image: {{ .Values.mysqlImage }}
           resources:
             requests:
               cpu: 50m
-              memory: 300Mi
+              memory: 100Mi
           env:
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: config
+                  name: {{ .Release.Name }}
                   key: MYSQL_DATABASE
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: config
+                  name: {{ .Release.Name }}
                   key: MYSQL_ROOT_PASSWORD
           ports:
             - containerPort: 3306
@@ -43,4 +43,4 @@ spec:
       volumes:
         - name: mysql
           persistentVolumeClaim:
-            claimName: mysql
+            claimName: {{ .Release.Name }}

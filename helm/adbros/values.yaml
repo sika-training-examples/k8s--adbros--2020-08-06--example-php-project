@@ -1,0 +1,10 @@
+backendImage: registry.sikademo.com/adbros/adbros/backend:master
+backendReplicas: 3
+backendHost: backend.local
+
+frontendImage: registry.sikademo.com/adbros/adbros/frontend:master
+frontendReplicas: 3
+frontendHost: frontend.local
+
+mysqlImage: registry.sikademo.com/adbros/adbros/db:master
+mysqlRootPassword: super-secret-root-password
