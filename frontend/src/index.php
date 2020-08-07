@@ -1,3 +1,8 @@
+<style>
+body {
+  background: lightblue;
+}
+</style>
 <script>
   fetch("<?php echo getenv('API_URL'); ?>", {
     headers: { "Content-Type": "application/json" },
