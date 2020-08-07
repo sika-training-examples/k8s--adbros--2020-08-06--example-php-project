@@ -26,7 +26,7 @@ deploy dev:
   stage: deploy dev
   script:
     - kubectl create ns $KUBE_NAMESPACE || true
-    - helm install $DEV_NAME
+    - helm install $DEV_NAME ./helm/adbros
       --set backendImage=$IMAGE_BACKEND
       --set frontendImage=$IMAGE_FRONTEND
       --set mysqlImage=$IMAGE_DB
@@ -42,7 +42,7 @@ deploy prod:
   stage: deploy prod
   script:
     - kubectl create ns $KUBE_NAMESPACE || true
-    - helm install $PROD_NAME
+    - helm install $PROD_NAME ./helm/adbros
       --set backendImage=$IMAGE_BACKEND
       --set frontendImage=$IMAGE_FRONTEND
       --set mysqlImage=$IMAGE_DB
