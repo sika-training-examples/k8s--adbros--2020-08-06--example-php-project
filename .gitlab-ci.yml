@@ -2,12 +2,15 @@ image: ondrejsika/ci
 
 stages:
   - build
-  - deploy
+  - deploy dev
+  - deploy prod
 
 variables:
-  IMAGE_DB: $CI_REGISTRY_IMAGE/db:$CI_COMMIT_REF_SLUG
-  IMAGE_BACKEND: $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG
-  IMAGE_FRONTEND: $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG
+  IMAGE_DB: $CI_REGISTRY_IMAGE/db:$CI_COMMIT-SHORT_SHA-$CI_PIPELINE_ID-$CI_COMMIT_REF_SLUG
+  IMAGE_BACKEND: $CI_REGISTRY_IMAGE/backend:$CI_COMMIT-SHORT_SHA-$CI_PIPELINE_ID-$CI_COMMIT_REF_SLUG
+  IMAGE_FRONTEND: $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT-SHORT_SHA-$CI_PIPELINE_ID-$CI_COMMIT_REF_SLUG
+  DEV_NAME: $CI_COMMIT_REF_SLUG
+  PROD_NAME: prod
 
 build:
   stage: build
@@ -19,11 +22,34 @@ build:
     - docker-compose build
     - docker-compose push
 
-deploy:
-  stage: deploy
+deploy dev:
+  stage: deploy dev
   script:
     - kubectl create ns $KUBE_NAMESPACE || true
-    - kubectl apply -f k8s
+    - helm install $DEV_NAME
+      --set backendImage=$IMAGE_BACKEND
+      --set frontendImage=$IMAGE_FRONTEND
+      --set mysqlImage=$IMAGE_DB
+      --set backendHost=$CI_COMMIT_REF_SLUG-backend.k8s.sikademo.com
+      --set frontendHost=$CI_COMMIT_REF_SLUG.k8s.sikademo.com
+      --set frontendReplicas=1
+      --set backendReplicas=1
+  environment:
+    name: dev/$CI_COMMIT_REF_SLUG
+    url: https://$CI_COMMIT_REF_SLUG.k8s.sikademo.com
+
+deploy prod:
+  stage: deploy prod
+  script:
+    - kubectl create ns $KUBE_NAMESPACE || true
+    - helm install $PROD_NAME
+      --set backendImage=$IMAGE_BACKEND
+      --set frontendImage=$IMAGE_FRONTEND
+      --set mysqlImage=$IMAGE_DB
+      --set backendHost=backend.k8s.sikademo.com
+      --set frontendHost=frontend.k8s.sikademo.com
   environment:
     name: prod
     url: https://frontend.k8s.sikademo.com
+  only:
+    - master
